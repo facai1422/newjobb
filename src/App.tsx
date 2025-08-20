@@ -171,7 +171,7 @@ function App() {
               </div>
 
               {/* 主要内容区域 - 恢复滚动图片和文字组件 */}
-              <div className="pt-8 md:pt-12 lg:pt-16 pb-0 min-h-[120vh]">
+              <div className="pt-8 md:pt-12 lg:pt-16 pb-0">
                 <HeroGeometric
                   badge="Hirely"
                   title1={t('hero.title') || 'Find Your Next'}
@@ -180,10 +180,10 @@ function App() {
                   className="!bg-transparent"
                 />
                 
-                {/* 简化卡片区域 - 移除重型动画 */}
-                <div className="relative z-10 -mt-16 px-4">
+                {/* 简化卡片区域 - 减少间距 */}
+                <div className="relative z-10 -mt-32 md:-mt-40 px-4">
                   <div className="container mx-auto max-w-6xl">
-                    <div className="py-8">
+                    <div className="py-6">
                       <GlowingEffectDemo />
                     </div>
                   </div>

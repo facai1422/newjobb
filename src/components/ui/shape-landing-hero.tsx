@@ -105,7 +105,7 @@ function HeroGeometric({
     return (
         <div className={cn(
             "relative w-full flex items-start justify-center overflow-hidden bg-transparent pt-20 md:pt-32",
-            compact ? "min-h-[60vh]" : "min-h-screen",
+            compact ? "min-h-[60vh]" : "min-h-[80vh]",
             className
         )}>
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
@@ -186,13 +186,13 @@ function HeroGeometric({
                         </div>
                     </motion.div>
 
-                    {/* 招聘文字动画 - 添加在滚动图片和发光卡片中间 */}
+                    {/* 招聘文字动画 - 减少间距 */}
                     <motion.div
                         custom={4}
                         variants={fadeUpVariants}
                         initial="hidden"
                         animate="visible"
-                        className="mt-8 md:mt-12 lg:mt-16"
+                        className="mt-6 md:mt-8 mb-0"
                     >
                         <div className="w-full max-w-4xl mx-auto px-4">
                             <SplitText
@@ -208,9 +208,6 @@ function HeroGeometric({
                             />
                         </div>
                     </motion.div>
-
-
-
 
                 </div>
             </div>
