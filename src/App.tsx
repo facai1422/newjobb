@@ -11,8 +11,8 @@ import { AdminAuthForm } from './components/AdminAuthForm';
 import { AdminDashboard } from './pages/AdminDashboard';
 import Locations from './pages/Locations';
 import { supabase } from './lib/supabase';
-import { GeometricBackground } from '@/components/ui/geometric-background';
-import { HeroGeometric } from '@/components/ui/shape-landing-hero';
+// import { GeometricBackground } from '@/components/ui/geometric-background'; // 移除重型动画组件
+// import { HeroGeometric } from '@/components/ui/shape-landing-hero'; // 移除重型动画组件
 import RealismButton from '@/components/ui/realism-button';
 import LogoutFab from '@/components/ui/logout-fab';
 import { Footer as NewFooter } from '@/components/ui/footer-section';
@@ -131,8 +131,7 @@ function App() {
         <Route path="/dashabi/login" element={<AdminAuthForm />} />
         <Route path="/dashabi/dashboard" element={<AdminDashboard />} />
         <Route path="/" element={
-          <div className="min-h-screen flex flex-col">
-            <GeometricBackground />
+          <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-black to-gray-800">
             <div className="relative flex-1">
               <div className="absolute inset-x-0 top-0 z-[90] bg-black/80 backdrop-blur border-b border-white/10">
                 <nav className="container mx-auto px-4 py-4 text-white">
@@ -171,18 +170,24 @@ function App() {
                 </nav>
               </div>
 
-              {/* 主要内容区域 - 形状动画Hero背景 */}
-              <div className="pt-8 md:pt-12 lg:pt-16 pb-0 min-h-[120vh]">
-                <HeroGeometric
-                  badge="Hirely"
-                  title1={t('hero.title') || 'Find Your Next'}
-                  title2={t('hero.subtitle') || 'Career Opportunity'}
-                  compact={false}
-                  className="!bg-transparent"
-                />
+              {/* 主要内容区域 - 简化背景提升性能 */}
+              <div className="pt-8 md:pt-12 lg:pt-16 pb-0 min-h-[80vh] bg-gradient-to-br from-slate-900 via-black to-slate-800">
+                <div className="relative z-10 container mx-auto px-4 pt-20 pb-32">
+                  <div className="text-center">
+                    <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8">
+                      <span className="text-sm font-medium text-white">Hirely</span>
+                    </div>
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                      {t('hero.title') || 'Find Your Next'}<br />
+                      <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                        {t('hero.subtitle') || 'Career Opportunity'}
+                      </span>
+                    </h1>
+                  </div>
+                </div>
                 
-                {/* 发光效果卡片演示区域 */}
-                <div className="relative z-10 mt-16 md:mt-20 lg:mt-24 px-4">
+                {/* 简化卡片区域 - 移除重型动画 */}
+                <div className="relative z-10 -mt-16 px-4">
                   <div className="container mx-auto max-w-6xl">
                     <div className="py-8">
                       <GlowingEffectDemo />
@@ -194,25 +199,26 @@ function App() {
 
 
 
-            {/* 见证组件 - 紧贴页脚上方 */}
+            {/* 见证组件 - 简化版本 */}
             <LazyMount
-              height="200px"
+              height="300px"
+              rootMargin="400px"
               fallback={
-                <div className="py-0 bg-transparent">
+                <div className="py-16 bg-gradient-to-t from-black/50 to-transparent">
                   <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {[1, 2, 3].map((i) => (
-                        <div key={i} className="bg-white/10 rounded-lg p-4 animate-pulse">
+                        <div key={i} className="bg-white/5 border border-white/10 rounded-lg p-6">
                           <div className="flex items-center gap-3 mb-4">
-                            <div className="w-12 h-12 bg-white/20 rounded-full" />
+                            <div className="w-10 h-10 bg-white/10 rounded-full" />
                             <div>
-                              <div className="h-4 bg-white/20 rounded w-24 mb-1" />
-                              <div className="h-3 bg-white/15 rounded w-16" />
+                              <div className="h-3 bg-white/20 rounded w-20 mb-2" />
+                              <div className="h-2 bg-white/15 rounded w-16" />
                             </div>
                           </div>
                           <div className="space-y-2">
-                            <div className="h-3 bg-white/15 rounded w-full" />
-                            <div className="h-3 bg-white/15 rounded w-3/4" />
+                            <div className="h-2 bg-white/15 rounded w-full" />
+                            <div className="h-2 bg-white/15 rounded w-3/4" />
                           </div>
                         </div>
                       ))}
@@ -221,11 +227,13 @@ function App() {
                 </div>
               }
             >
-              <TestimonialsSection
-                title=""
-                description=""
-                testimonials={defaultTestimonials}
-              />
+              <div className="[content-visibility:auto] [contain-intrinsic-size:1px_400px]">
+                <TestimonialsSection
+                  title=""
+                  description=""
+                  testimonials={defaultTestimonials.slice(0, 3)}
+                />
+              </div>
             </LazyMount>
 
             {/* 页脚 - 移到主容器外面，紧贴底部，去除上方空隙 */}
