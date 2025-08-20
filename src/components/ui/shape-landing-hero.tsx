@@ -110,51 +110,13 @@ function HeroGeometric({
         )}>
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
 
+            {/* 简化背景装饰 - 移除重型动画但保持美观 */}
             <div className="absolute inset-0 overflow-hidden">
-                <ElegantShape
-                    delay={0.3}
-                    width={600}
-                    height={140}
-                    rotate={12}
-                    gradient="from-indigo-500/[0.15]"
-                    className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
-                />
-
-                <ElegantShape
-                    delay={0.5}
-                    width={500}
-                    height={120}
-                    rotate={-15}
-                    gradient="from-rose-500/[0.15]"
-                    className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
-                />
-
-                <ElegantShape
-                    delay={0.4}
-                    width={300}
-                    height={80}
-                    rotate={-8}
-                    gradient="from-violet-500/[0.15]"
-                    className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
-                />
-
-                <ElegantShape
-                    delay={0.6}
-                    width={200}
-                    height={60}
-                    rotate={20}
-                    gradient="from-amber-500/[0.15]"
-                    className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
-                />
-
-                <ElegantShape
-                    delay={0.7}
-                    width={150}
-                    height={40}
-                    rotate={-25}
-                    gradient="from-cyan-500/[0.15]"
-                    className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
-                />
+                <div className="absolute left-[-10%] md:left-[-5%] top-[15%] md:top-[20%] w-[600px] h-[140px] rounded-full bg-gradient-to-r from-indigo-500/[0.08] to-transparent border border-white/5 blur-sm opacity-60" />
+                <div className="absolute right-[-5%] md:right-[0%] top-[70%] md:top-[75%] w-[500px] h-[120px] rounded-full bg-gradient-to-r from-rose-500/[0.08] to-transparent border border-white/5 blur-sm opacity-50" />
+                <div className="absolute left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%] w-[300px] h-[80px] rounded-full bg-gradient-to-r from-violet-500/[0.08] to-transparent border border-white/5 blur-sm opacity-40" />
+                <div className="absolute right-[15%] md:right-[20%] top-[10%] md:top-[15%] w-[200px] h-[60px] rounded-full bg-gradient-to-r from-amber-500/[0.08] to-transparent border border-white/5 blur-sm opacity-30" />
+                <div className="absolute left-[20%] md:left-[25%] top-[5%] md:top-[10%] w-[150px] h-[40px] rounded-full bg-gradient-to-r from-cyan-500/[0.08] to-transparent border border-white/5 blur-sm opacity-35" />
             </div>
 
             <div className="relative z-10 container mx-auto px-4 md:px-6 -mt-144 md:-mt-160">

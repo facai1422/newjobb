@@ -11,8 +11,8 @@ import { AdminAuthForm } from './components/AdminAuthForm';
 import { AdminDashboard } from './pages/AdminDashboard';
 import Locations from './pages/Locations';
 import { supabase } from './lib/supabase';
-// import { GeometricBackground } from '@/components/ui/geometric-background'; // 移除重型动画组件
-// import { HeroGeometric } from '@/components/ui/shape-landing-hero'; // 移除重型动画组件
+// import { GeometricBackground } from '@/components/ui/geometric-background'; // 移除重型背景动画组件
+import { HeroGeometric } from '@/components/ui/shape-landing-hero'; // 保留滚动图片和文字组件
 import RealismButton from '@/components/ui/realism-button';
 import LogoutFab from '@/components/ui/logout-fab';
 import { Footer as NewFooter } from '@/components/ui/footer-section';
@@ -170,21 +170,15 @@ function App() {
                 </nav>
               </div>
 
-              {/* 主要内容区域 - 简化背景提升性能 */}
-              <div className="pt-8 md:pt-12 lg:pt-16 pb-0 min-h-[80vh] bg-gradient-to-br from-slate-900 via-black to-slate-800">
-                <div className="relative z-10 container mx-auto px-4 pt-20 pb-32">
-                  <div className="text-center">
-                    <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8">
-                      <span className="text-sm font-medium text-white">Hirely</span>
-                    </div>
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-                      {t('hero.title') || 'Find Your Next'}<br />
-                      <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                        {t('hero.subtitle') || 'Career Opportunity'}
-                      </span>
-                    </h1>
-                  </div>
-                </div>
+              {/* 主要内容区域 - 恢复滚动图片和文字组件 */}
+              <div className="pt-8 md:pt-12 lg:pt-16 pb-0 min-h-[120vh]">
+                <HeroGeometric
+                  badge="Hirely"
+                  title1={t('hero.title') || 'Find Your Next'}
+                  title2={t('hero.subtitle') || 'Career Opportunity'}
+                  compact={false}
+                  className="!bg-transparent"
+                />
                 
                 {/* 简化卡片区域 - 移除重型动画 */}
                 <div className="relative z-10 -mt-16 px-4">

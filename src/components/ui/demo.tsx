@@ -1,7 +1,7 @@
 "use client";
 
 import { Search, Gift } from "lucide-react";
-// import { GlowingEffect } from "@/components/ui/glowing-effect"; // 暂时禁用重型动画
+import { GlowingEffect } from "@/components/ui/glowing-effect"; // 重新启用但禁用动画
 import { cn } from "@/lib/utils";
 
 export function GlowingEffectDemo() {
@@ -43,7 +43,15 @@ interface GridItemProps {
 const GridItem = ({ area, icon, title, description, hasButton, buttonText, onButtonClick }: GridItemProps) => {
   return (
     <li className={cn("min-h-[16rem] list-none", area)}>
-      <div className="relative h-full rounded-[1.25rem] border-[0.75px] border-gray-700 p-2 md:rounded-[1.5rem] md:p-3 hover:border-gray-600 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
+      <div className="relative h-full rounded-[1.25rem] border-[0.75px] border-gray-700 p-2 md:rounded-[1.5rem] md:p-3">
+        <GlowingEffect
+          spread={40}
+          glow={false}
+          disabled={true}
+          proximity={64}
+          inactiveZone={0.01}
+          borderWidth={3}
+        />
         <div className="relative flex h-full flex-col rounded-xl border-[0.75px] bg-gray-900 p-4 md:p-6 shadow-sm dark:shadow-[0px_0px_27px_0px_rgba(45,45,45,0.3)] hover:bg-gray-800 transition-colors">
           <div className="flex-1 flex flex-col gap-4">
             <div className="w-fit rounded-lg border-[0.75px] border-gray-600 bg-gray-800 p-2">
