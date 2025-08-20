@@ -184,14 +184,6 @@ function App() {
                 {/* 发光效果卡片演示区域 */}
                 <div className="relative z-10 mt-16 md:mt-20 lg:mt-24 px-4">
                   <div className="container mx-auto max-w-6xl">
-                    <div className="text-center mb-12">
-                      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                        {t('features.title') || '平台特色'}
-                      </h2>
-                      <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto">
-                        {t('features.description') || '现代化的求职平台，为您提供最佳的求职体验'}
-                      </p>
-                    </div>
                     <div className="py-8">
                       <GlowingEffectDemo />
                     </div>
