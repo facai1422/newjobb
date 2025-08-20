@@ -1,6 +1,6 @@
 "use client";
 
-import { Lock, Search, Settings, Sparkles, Gift } from "lucide-react";
+import { Search, Gift } from "lucide-react";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { cn } from "@/lib/utils";
 
@@ -10,9 +10,9 @@ export function GlowingEffectDemo() {
   };
 
   return (
-    <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 xl:max-h-[34rem] xl:grid-rows-2">
+    <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-2 lg:gap-6">
       <GridItem
-        area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
+        area=""
         icon={<Gift className="h-5 w-5 text-purple-400" />}
         title="Invite Friends"
         description="Invite your friends to join our platform and get exclusive lottery wheel opportunities! Share with friends and win amazing prizes together."
@@ -21,28 +21,10 @@ export function GlowingEffectDemo() {
         onButtonClick={handleOpenLottery}
       />
       <GridItem
-        area="md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]"
+        area=""
         icon={<Search className="h-5 w-5 text-blue-400" />}
         title="Smart Job Search"
         description="Advanced AI-powered job search engine that matches you with perfect career opportunities based on your skills and preferences."
-      />
-      <GridItem
-        area="md:[grid-area:2/1/3/7] xl:[grid-area:1/5/3/8]"
-        icon={<Settings className="h-5 w-5 text-green-400" />}
-        title="Resume Builder"
-        description="Professional resume builder with industry-specific templates. Create stunning resumes that get noticed by top employers."
-      />
-      <GridItem
-        area="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]"
-        icon={<Lock className="h-5 w-5 text-yellow-400" />}
-        title="Career Coaching"
-        description="Expert career guidance and interview preparation to help you land your dream job with confidence."
-      />
-      <GridItem
-        area="md:[grid-area:3/1/4/13] xl:[grid-area:2/8/3/13]"
-        icon={<Sparkles className="h-5 w-5 text-pink-400" />}
-        title="Premium Features"
-        description="Unlock premium features including priority job alerts, direct employer messaging, and exclusive networking events."
       />
     </ul>
   );
