@@ -6,6 +6,7 @@ import { Gift, Star, Trophy, Zap, Crown, Diamond, Sparkles, Target, ArrowLeft, W
 import { supabase } from '@/lib/supabase';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { LuckyWheelComponent } from '@/components/ui/lucky-wheel-component';
 
 // Utility function
 const cn = (...classes: (string | undefined | null | boolean)[]) => {
@@ -65,131 +66,13 @@ interface UserData {
   withdrawalAddress?: string;
 }
 
-// Wheel Component
-interface WheelProps {
-  prizes: Prize[];
-  isSpinning: boolean;
-  rotation: number;
-  onSpin: () => void;
-  disabled: boolean;
-}
-
-function Wheel({ prizes, isSpinning, rotation, onSpin, disabled }: WheelProps) {
-  const segmentAngle = 360 / prizes.length;
-
-  return (
-    <div className="relative flex items-center justify-center">
-      {/* 轮盘背景图片 */}
-      <motion.div
-        className="relative w-96 h-96 rounded-full shadow-2xl shadow-yellow-500/30"
-        style={{
-          backgroundImage: 'url(/zphd_bj_s3.avif)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-        animate={{ rotate: rotation }}
-        transition={{ duration: 4, ease: 'easeOut' }}
-      >
-        {prizes.map((prize, index) => {
-          const angle = index * segmentAngle;
-          
-          return (
-            <div
-              key={prize.id}
-              className="absolute w-full h-full"
-              style={{ transform: `rotate(${angle}deg)` }}
-            >
-              {/* 奖品区域 */}
-              <div
-                className="absolute flex flex-col items-center justify-center text-center"
-                style={{
-                  top: '40px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '80px',
-                }}
-              >
-                {/* 奖品图标 - 金币图标 */}
-                <div className="mb-1">
-                  <div className="w-6 h-6 bg-yellow-400 rounded-full border-2 border-yellow-300 flex items-center justify-center shadow-md">
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  </div>
-                </div>
-                
-                {/* 奖品金额 - 直接显示在轮盘上 */}
-                <p 
-                  className="text-white font-bold leading-none"
-                  style={{
-                    fontSize: '12px',
-                    textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
-                    transform: 'rotate(0deg)',
-                  }}
-                >
-                  {prize.amount > 0 ? `${prize.amount}` : 'Thanks'}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-
-        {/* 轮盘中间装饰图片 */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full z-10">
-          <img 
-            src="/zphd_ljcj_s3.avif" 
-            alt="轮盘中心装饰" 
-            className="w-full h-full object-cover rounded-full"
-          />
-        </div>
-
-        {/* SPIN 按钮 - 轮盘中心 */}
-        <motion.button
-          onClick={onSpin}
-          disabled={disabled || isSpinning}
-          className={cn(
-            'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50',
-            'w-20 h-20 rounded-full font-bold text-base',
-            'bg-gradient-to-br from-yellow-400 to-yellow-600 text-yellow-900',
-            'border-4 border-yellow-300 shadow-xl transition-all duration-200',
-            'flex items-center justify-center',
-            disabled || isSpinning
-              ? 'opacity-50 cursor-not-allowed'
-              : 'hover:scale-110 hover:shadow-2xl active:scale-95'
-          )}
-          whileHover={!disabled && !isSpinning ? { scale: 1.1 } : {}}
-          whileTap={!disabled && !isSpinning ? { scale: 0.95 } : {}}
-        >
-          {isSpinning ? (
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            >
-              <Sparkles className="w-8 h-8" />
-            </motion.div>
-          ) : (
-            'SPIN'
-          )}
-        </motion.button>
-      </motion.div>
-
-      {/* 轮盘指针图片 */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-6 z-20">
-        <img 
-          src="/zphd_zz_s1.avif" 
-          alt="轮盘指针" 
-          className="w-10 h-14 object-contain"
-        />
-      </div>
-    </div>
-  );
-}
+// 新的LuckyWheel组件已在 @/components/ui/lucky-wheel-component 中实现
 
 export default function LotteryPage() {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [rotation, setRotation] = useState(0);
+  // isSpinning 和 rotation 状态已被 Lucky Canvas 组件内部管理
   const [selectedPrize, setSelectedPrize] = useState<Prize | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [prizes, setPrizes] = useState<Prize[]>([]);
@@ -307,84 +190,70 @@ export default function LotteryPage() {
     }
   };
 
-  const selectRandomPrize = () => {
-    const random = Math.random();
-    let cumulative = 0;
+  // selectRandomPrize 函数已被 Lucky Canvas 组件的内置概率系统替代
+
+  // handleSpin函数已被新的Lucky Canvas组件的内置逻辑替代
+
+  const handlePrizeWon = async (prize: any) => {
+    // 从lucky-canvas组件接收中奖信息
+    const prizeText = prize.fonts[0].text;
     
-    for (const prize of prizes) {
-      cumulative += prize.probability;
-      if (random <= cumulative) {
-        return prize;
-      }
-    }
-    
-    return prizes[0];
-  };
-
-  const handleSpin = async () => {
-    const totalChances = userData.freeChances + userData.bonusChances;
-    if (isSpinning || totalChances <= 0) return;
-
-    setIsSpinning(true);
-
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const prize = selectRandomPrize();
-      const prizeIndex = prizes.findIndex(p => p.id === prize.id);
-      const segmentAngle = 360 / prizes.length;
-      const targetAngle = prizeIndex * segmentAngle + segmentAngle / 2;
-      const spins = 5;
-      const finalRotation = rotation + spins * 360 + (360 - targetAngle);
-
-      setRotation(finalRotation);
-
-      // 记录抽奖结果并更新余额
-      if (prize.amount > 0) {
-        await supabase.rpc('add_lottery_prize', {
-          p_user_id: user.id,
-          p_prize_name: prize.name,
-          p_prize_amount: prize.amount
-        });
+      // 找到对应的奖品信息
+      let wonPrize;
+      if (prizeText === 'Thanks') {
+        wonPrize = prizes.find(p => p.amount === 0) || prizes[0];
+      } else {
+        const amount = parseFloat(prizeText.replace(' USDT', ''));
+        wonPrize = prizes.find(p => p.amount === amount) || prizes[0];
       }
 
-      // 更新抽奖次数
+      // 记录抽奖结果
+      await supabase.from('lottery_records').insert({
+        user_id: user.id,
+        prize_id: wonPrize?.id,
+        prize_name: wonPrize?.name || prizeText,
+        prize_amount: wonPrize?.amount || 0
+      });
+
+      // 扣除抽奖次数
       if (userData.freeChances > 0) {
-        await supabase
-          .from('user_lottery_chances')
+        await supabase.from('user_lottery_chances')
           .update({ free_chances: userData.freeChances - 1 })
           .eq('user_id', user.id);
-        
-        setUserData(prev => ({
-          ...prev,
-          freeChances: prev.freeChances - 1,
-          balance: prev.balance + prize.amount,
-          withdrawableBalance: prev.withdrawableBalance + prize.amount
-        }));
-      } else {
-        await supabase
-          .from('user_lottery_chances')
+        setUserData(prev => ({ ...prev, freeChances: prev.freeChances - 1 }));
+      } else if (userData.bonusChances > 0) {
+        await supabase.from('user_lottery_chances')
           .update({ bonus_chances: userData.bonusChances - 1 })
           .eq('user_id', user.id);
-        
-        setUserData(prev => ({
-          ...prev,
-          bonusChances: prev.bonusChances - 1,
-          balance: prev.balance + prize.amount,
-          withdrawableBalance: prev.withdrawableBalance + prize.amount
-        }));
+        setUserData(prev => ({ ...prev, bonusChances: prev.bonusChances - 1 }));
       }
 
-      setTimeout(() => {
-        setSelectedPrize(prize);
-        setShowResult(true);
-        setIsSpinning(false);
-      }, 4000);
+      // 如果中奖不是Thanks，更新用户余额
+      if (wonPrize && wonPrize.amount > 0) {
+        const { data: balanceData } = await supabase
+          .from('user_balances')
+          .select('balance')
+          .eq('user_id', user.id)
+          .single();
+
+        const currentBalance = balanceData?.balance || 0;
+        await supabase.from('user_balances')
+          .upsert({
+            user_id: user.id,
+            balance: currentBalance + wonPrize.amount
+          });
+      }
+
+      // 显示结果
+      setSelectedPrize(wonPrize || prizes[0]);
+      setShowResult(true);
 
     } catch (error) {
-      console.error('Error during spin:', error);
-      setIsSpinning(false);
+      console.error('Error handling prize:', error);
     }
   };
 
@@ -469,11 +338,8 @@ export default function LotteryPage() {
             transition={{ delay: 0.3 }}
             className="mb-8"
           >
-            <Wheel
-              prizes={prizes}
-              isSpinning={isSpinning}
-              rotation={rotation}
-              onSpin={handleSpin}
+            <LuckyWheelComponent
+              onPrizeWon={handlePrizeWon}
               disabled={totalChances <= 0}
             />
           </motion.div>

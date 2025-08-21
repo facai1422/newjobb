@@ -186,13 +186,13 @@ function HeroGeometric({
                         </div>
                     </motion.div>
 
-                    {/* 招聘文字动画 - 减少间距 */}
+                    {/* 招聘文字动画 - 为移动端留出底部空间 */}
                     <motion.div
                         custom={4}
                         variants={fadeUpVariants}
                         initial="hidden"
                         animate="visible"
-                        className="mt-6 md:mt-8 mb-0"
+                        className="mt-6 md:mt-8 mb-8 md:mb-4"
                     >
                         <div className="w-full max-w-4xl mx-auto px-4">
                             <SplitText

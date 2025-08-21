@@ -180,18 +180,16 @@ function App() {
                   className="!bg-transparent"
                 />
                 
-                {/* 简化卡片区域 - 减少间距 */}
-                <div className="relative z-10 -mt-32 md:-mt-40 px-4">
+                {/* 简化卡片区域 - 修复移动端覆盖问题 */}
+                <div className="relative z-10 -mt-8 md:-mt-20 px-4">
                   <div className="container mx-auto max-w-6xl">
-                    <div className="py-6">
+                    <div className="py-4">
                       <GlowingEffectDemo />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-
 
             {/* 见证组件 - 简化版本 */}
             <LazyMount
