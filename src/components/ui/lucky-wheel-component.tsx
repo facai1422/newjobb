@@ -14,61 +14,200 @@ export const LuckyWheelComponent: React.FC<LuckyWheelComponentProps> = ({
   const { t } = useLanguage();
   const myLucky = useRef<any>();
 
-  // 转盘背景配置
+  // 转盘背景配置 - 使用SVG背景
   const [blocks] = useState([
-    { padding: '10px', background: '#7c3aed' }
+    { 
+      padding: '0px', 
+      background: 'transparent',
+      imgs: [
+        {
+          src: '/1.svg', // 转盘背景SVG
+          width: '100%',
+          height: '100%',
+          top: '0%',
+          left: '0%'
+        }
+      ]
+    }
   ]);
 
   // 奖品配置
   const [prizes] = useState([
     { 
-      background: '#a855f7', 
-      fonts: [{ text: '10 USDT', fontSize: '14px', fontColor: '#fff', fontWeight: 'bold' }] 
-    },
-    { 
-      background: '#8b5cf6', 
-      fonts: [{ text: '5 USDT', fontSize: '14px', fontColor: '#fff', fontWeight: 'bold' }] 
-    },
-    { 
-      background: '#a855f7', 
-      fonts: [{ text: 'Thanks', fontSize: '12px', fontColor: '#fff', fontWeight: 'bold' }] 
-    },
-    { 
-      background: '#8b5cf6', 
-      fonts: [{ text: '20 USDT', fontSize: '14px', fontColor: '#fff', fontWeight: 'bold' }] 
-    },
-    { 
-      background: '#a855f7', 
-      fonts: [{ text: '1 USDT', fontSize: '14px', fontColor: '#fff', fontWeight: 'bold' }] 
-    },
-    { 
-      background: '#8b5cf6', 
-      fonts: [{ text: 'Thanks', fontSize: '12px', fontColor: '#fff', fontWeight: 'bold' }] 
-    },
-    { 
-      background: '#a855f7', 
-      fonts: [{ text: '50 USDT', fontSize: '14px', fontColor: '#fff', fontWeight: 'bold' }] 
-    },
-    { 
-      background: '#8b5cf6', 
-      fonts: [{ text: '2 USDT', fontSize: '14px', fontColor: '#fff', fontWeight: 'bold' }] 
-    },
-  ]);
-
-  // 按钮配置
-  const [buttons] = useState([
-    { radius: '45%', background: '#4c1d95' },
-    { radius: '40%', background: '#6d28d9' },
-    {
-      radius: '35%', 
-      background: '#7c3aed',
-      pointer: true,
+      background: 'transparent', // 使用透明背景，依赖SVG背景
       fonts: [{ 
-        text: t('lottery.spin') || 'SPIN', 
+        text: '10', 
         fontSize: '16px', 
         fontColor: '#fff', 
         fontWeight: 'bold',
-        top: '-8px' 
+        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+        top: '40%'
+      }],
+      imgs: [
+        {
+          src: '/icons8.svg', // USDT图标
+          width: '30%',
+          height: '30%',
+          top: '15%'
+        }
+      ]
+    },
+    { 
+      background: 'transparent',
+      fonts: [{ 
+        text: '5', 
+        fontSize: '16px', 
+        fontColor: '#fff', 
+        fontWeight: 'bold',
+        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+        top: '40%'
+      }],
+      imgs: [
+        {
+          src: '/icons8.svg', // USDT图标
+          width: '30%',
+          height: '30%',
+          top: '15%'
+        }
+      ]
+    },
+    { 
+      background: 'transparent',
+      fonts: [{ 
+        text: 'Thanks', 
+        fontSize: '14px', 
+        fontColor: '#fff', 
+        fontWeight: 'bold',
+        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+        top: '40%'
+      }],
+      imgs: [
+        {
+          src: '/xiexiee.png', // 谢谢图标
+          width: '25%',
+          height: '25%',
+          top: '15%'
+        }
+      ]
+    },
+    { 
+      background: 'transparent',
+      fonts: [{ 
+        text: '20', 
+        fontSize: '16px', 
+        fontColor: '#fff', 
+        fontWeight: 'bold',
+        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+        top: '40%'
+      }],
+      imgs: [
+        {
+          src: '/icons8.svg', // USDT图标
+          width: '30%',
+          height: '30%',
+          top: '15%'
+        }
+      ]
+    },
+    { 
+      background: 'transparent',
+      fonts: [{ 
+        text: '1', 
+        fontSize: '16px', 
+        fontColor: '#fff', 
+        fontWeight: 'bold',
+        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+        top: '40%'
+      }],
+      imgs: [
+        {
+          src: '/icons8.svg', // USDT图标
+          width: '30%',
+          height: '30%',
+          top: '15%'
+        }
+      ]
+    },
+    { 
+      background: 'transparent',
+      fonts: [{ 
+        text: 'Thanks', 
+        fontSize: '14px', 
+        fontColor: '#fff', 
+        fontWeight: 'bold',
+        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+        top: '40%'
+      }],
+      imgs: [
+        {
+          src: '/xiexiee.png', // 谢谢图标
+          width: '25%',
+          height: '25%',
+          top: '15%'
+        }
+      ]
+    },
+    { 
+      background: 'transparent',
+      fonts: [{ 
+        text: '50', 
+        fontSize: '16px', 
+        fontColor: '#fff', 
+        fontWeight: 'bold',
+        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+        top: '40%'
+      }],
+      imgs: [
+        {
+          src: '/icons8.svg', // USDT图标
+          width: '30%',
+          height: '30%',
+          top: '15%'
+        }
+      ]
+    },
+    { 
+      background: 'transparent',
+      fonts: [{ 
+        text: '2', 
+        fontSize: '16px', 
+        fontColor: '#fff', 
+        fontWeight: 'bold',
+        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+        top: '40%'
+      }],
+      imgs: [
+        {
+          src: '/icons8.svg', // USDT图标
+          width: '30%',
+          height: '30%',
+          top: '15%'
+        }
+      ]
+    },
+  ]);
+
+  // 按钮配置 - 使用SVG中心按钮
+  const [buttons] = useState([
+    {
+      radius: '60px', 
+      background: 'transparent',
+      pointer: true,
+      imgs: [
+        {
+          src: '/2.svg', // 中心按钮SVG
+          width: '100%',
+          height: '100%',
+          top: '0%'
+        }
+      ],
+      fonts: [{ 
+        text: t('lottery.spin') || 'SPIN', 
+        fontSize: '18px', 
+        fontColor: '#fff', 
+        fontWeight: 'bold',
+        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+        top: '0px' 
       }]
     }
   ]);
@@ -116,11 +255,18 @@ export const LuckyWheelComponent: React.FC<LuckyWheelComponentProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-4">
+      <div className="mb-4 relative">
+        {/* 转盘指针 */}
+        <div 
+          className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none w-12 h-12"
+        >
+          <img src="/3.svg" alt="pointer" className="w-full h-full" />
+        </div>
+        
         <LuckyWheel
           ref={myLucky}
-          width="280px"
-          height="280px"
+          width="350px"
+          height="350px"
           blocks={blocks}
           prizes={prizes}
           buttons={buttons}

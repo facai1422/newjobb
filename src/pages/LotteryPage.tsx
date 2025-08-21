@@ -118,32 +118,95 @@ export default function LotteryPage() {
 
   const loadUserData = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      console.log('开始加载用户数据...');
+      
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError) {
+        console.error('获取用户信息失败:', userError);
+        setLoading(false);
+        return;
+      }
+      
       if (!user) {
+        console.log('用户未登录，重定向到登录页');
         navigate('/login');
         return;
       }
 
-      // 初始化用户数据
-      await supabase.from('user_balances').upsert([{ user_id: user.id }]);
-      await supabase.from('user_lottery_chances').upsert([{ user_id: user.id }]);
+      console.log('用户ID:', user.id);
 
-      // 加载用户数据
-      const [balanceResult, chancesResult] = await Promise.all([
-        supabase.from('user_balances').select('*').eq('user_id', user.id).single(),
-        supabase.from('user_lottery_chances').select('*').eq('user_id', user.id).single()
-      ]);
+      // 初始化用户数据 - 添加错误处理
+      try {
+        await supabase.from('user_balances').upsert([{ 
+          user_id: user.id,
+          balance: 0,
+          withdrawable_balance: 0
+        }]);
+        console.log('user_balances 初始化成功');
+      } catch (balanceError) {
+        console.error('user_balances 初始化失败:', balanceError);
+      }
+
+      try {
+        await supabase.from('user_lottery_chances').upsert([{ 
+          user_id: user.id,
+          free_chances: 3,
+          bonus_chances: 0,
+          total_invitations: 0
+        }]);
+        console.log('user_lottery_chances 初始化成功');
+      } catch (chancesError) {
+        console.error('user_lottery_chances 初始化失败:', chancesError);
+      }
+
+      // 加载用户数据 - 分别处理
+      let balanceData = { balance: 0, withdrawable_balance: 0 };
+      let chancesData = { free_chances: 3, bonus_chances: 0, total_invitations: 0 };
+
+      try {
+        const balanceResult = await supabase.from('user_balances').select('*').eq('user_id', user.id).single();
+        if (balanceResult.error) {
+          console.error('获取余额数据失败:', balanceResult.error);
+        } else {
+          balanceData = balanceResult.data;
+          console.log('余额数据:', balanceData);
+        }
+      } catch (err) {
+        console.error('余额查询异常:', err);
+      }
+
+      try {
+        const chancesResult = await supabase.from('user_lottery_chances').select('*').eq('user_id', user.id).single();
+        if (chancesResult.error) {
+          console.error('获取抽奖次数失败:', chancesResult.error);
+        } else {
+          chancesData = chancesResult.data;
+          console.log('抽奖次数数据:', chancesData);
+        }
+      } catch (err) {
+        console.error('抽奖次数查询异常:', err);
+      }
 
       setUserData({
-        balance: balanceResult.data?.balance || 0,
-        withdrawableBalance: balanceResult.data?.withdrawable_balance || 0,
-        freeChances: chancesResult.data?.free_chances || 3,
-        bonusChances: chancesResult.data?.bonus_chances || 0,
-        totalInvitations: chancesResult.data?.total_invitations || 0
+        balance: balanceData?.balance || 0,
+        withdrawableBalance: balanceData?.withdrawable_balance || 0,
+        freeChances: chancesData?.free_chances || 3,
+        bonusChances: chancesData?.bonus_chances || 0,
+        totalInvitations: chancesData?.total_invitations || 0
       });
 
+      console.log('用户数据加载完成');
+
     } catch (error) {
-      console.error('Error loading user data:', error);
+      console.error('加载用户数据时发生错误:', error);
+      // 即使出错也要设置默认值并停止加载
+      setUserData({
+        balance: 0,
+        withdrawableBalance: 0,
+        freeChances: 3,
+        bonusChances: 0,
+        totalInvitations: 0
+      });
     } finally {
       setLoading(false);
     }
@@ -151,13 +214,23 @@ export default function LotteryPage() {
 
   const loadPrizes = async () => {
     try {
-      const { data } = await supabase
+      console.log('开始加载奖品数据...');
+      
+      const { data, error } = await supabase
         .from('lottery_prizes')
         .select('*')
         .eq('is_active', true)
         .order('amount', { ascending: true });
 
-      if (data) {
+      if (error) {
+        console.error('获取奖品数据失败:', error);
+        // 使用默认奖品数据
+        setDefaultPrizes();
+        return;
+      }
+
+      if (data && data.length > 0) {
+        console.log('奖品数据:', data);
         const formattedPrizes: Prize[] = data.map(prize => ({
           id: prize.id,
           name: prize.name,
@@ -168,10 +241,29 @@ export default function LotteryPage() {
           probability: prize.probability
         }));
         setPrizes(formattedPrizes);
+        console.log('奖品数据加载完成');
+      } else {
+        console.log('数据库中没有奖品数据，使用默认奖品');
+        setDefaultPrizes();
       }
     } catch (error) {
-      console.error('Error loading prizes:', error);
+      console.error('加载奖品数据时发生错误:', error);
+      setDefaultPrizes();
     }
+  };
+
+  const setDefaultPrizes = () => {
+    console.log('设置默认奖品数据');
+    const defaultPrizes: Prize[] = [
+      { id: '1', name: 'Thanks', amount: 0, icon: Gift, color: '#e11d48', rarity: 'common', probability: 0.6 },
+      { id: '2', name: '1 USDT', amount: 1, icon: Diamond, color: '#eab308', rarity: 'rare', probability: 0.15 },
+      { id: '3', name: '2 USDT', amount: 2, icon: Crown, color: '#eab308', rarity: 'rare', probability: 0.1 },
+      { id: '4', name: '5 USDT', amount: 5, icon: Star, color: '#eab308', rarity: 'epic', probability: 0.08 },
+      { id: '5', name: '10 USDT', amount: 10, icon: Trophy, color: '#f59e0b', rarity: 'epic', probability: 0.04 },
+      { id: '6', name: '20 USDT', amount: 20, icon: Zap, color: '#f59e0b', rarity: 'legendary', probability: 0.02 },
+      { id: '7', name: '50 USDT', amount: 50, icon: Target, color: '#f59e0b', rarity: 'legendary', probability: 0.01 }
+    ];
+    setPrizes(defaultPrizes);
   };
 
   const generateInvitationCode = async () => {
